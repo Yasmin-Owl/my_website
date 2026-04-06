@@ -87,32 +87,137 @@ body {
     .navbar-nav {
         display: contents;
     }
+
+    /* Mobile header wrapper: neutral on desktop — navbar's own fixed positioning applies */
+    #mobile-sticky-header {
+        background: transparent;
+        position: static;
+    }
 }
 
-/* Mobile: collapsed menu right-aligned */
-@media (max-width: 991px) {
+/* ============================================================
+   MOBILE HEADER — FIXED WRAPPER (max-width: 991.98px only)
+   ============================================================ */
+@media (max-width: 991.98px) {
+
+    /* 1. Fixed white envelope: wraps navbar + switcher as one gapless block */
+    #mobile-sticky-header {
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        width: 100% !important;
+        z-index: 1050 !important;
+        background: white !important;
+        background-color: #ffffff !important;
+    }
+
+    /* Navbar inside wrapper: static — the wrapper handles the fixing */
+    #mobile-sticky-header .navbar {
+        position: static !important;
+        z-index: unset !important;
+        margin: 0 !important;
+    }
+
+    /* Switcher inside wrapper: static, -2px overlap to kill any residual gap */
+    #mobile-sticky-header .mobile-project-switcher {
+        position: static !important;
+        top: auto !important;
+        margin-top: -2px !important;
+        background: white !important;
+        background-color: #ffffff !important;
+        opacity: 1 !important;
+        border: none !important;
+        border-bottom: 1px solid #E0E0E0 !important;
+        overflow: hidden !important;
+    }
+
+    /* Clip the right-edge fade so it cannot bleed into the navbar row */
+    #mobile-sticky-header .mobile-project-switcher::after {
+        z-index: 1 !important;
+    }
+
+    /* Burger must sit above all gradients inside the fixed header */
+    .navbar-toggler {
+        position: relative !important;
+        z-index: 9999 !important;
+    }
+
+    /* 2. Navbar: solid white, no shadows/borders */
+    .navbar {
+        background: white !important;
+        background-color: #ffffff !important;
+        opacity: 1 !important;
+        backdrop-filter: none !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        border: none !important;
+        border-bottom: none !important;
+        box-shadow: none !important;
+        position: fixed !important;
+        z-index: 1001 !important;
+    }
+
+    /* 3. Container: relative for logo, min-height holds the 78px logo with 20px breathing room top and bottom */
+    .navbar .container-fluid {
+        position: relative !important;
+        flex-wrap: nowrap !important;
+        background: white !important;
+        background-color: #ffffff !important;
+        padding: 0 !important;
+        min-height: 118px !important;
+        align-items: center !important;
+        margin: 0 !important;
+    }
+
+    /* 4. Logo: centered, 20px from top, 30% larger (78px) */
+    .navbar-brand.logo {
+        position: absolute !important;
+        left: 50% !important;
+        top: 20px !important;
+        transform: translateX(-50%) !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+    .logo-image {
+        height: 78px !important;
+        width: auto !important;
+    }
+
+    /* 5. Collapsed menu: absolute, drops below navbar, solid white */
     .navbar-collapse {
-        text-align: right;
+        text-align: right !important;
+        background: white !important;
+        background-color: #ffffff !important;
+        margin: 0 !important;
     }
 
     .navbar-nav {
-        align-items: flex-end;
-        gap: 10px;
-        padding: 10px 0;
-    }
-
-    .navbar-toggler {
-        position: relative;
-        left: 10px;
+        align-items: flex-end !important;
+        gap: 10px !important;
+        padding: 10px 0 !important;
+        margin: 0 !important;
     }
 
     .navbar-collapse.show,
     .navbar-collapse.collapsing {
-        background-color: #FFFFFF;
-        padding: 10px 0;
-        position: relative;
-        z-index: 99;
-    }}
+        background: white !important;
+        background-color: #ffffff !important;
+        opacity: 1 !important;
+        position: absolute !important;
+        top: 100% !important;
+        left: 0 !important;
+        right: 0 !important;
+        z-index: 1000 !important;
+        padding: 10px 20px !important;
+        margin: 0 !important;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.05) !important;
+        border: none !important;
+        border-top: none !important;
+    }
+}
+
+
 
 /* Hero Section */
 .hero {
@@ -420,7 +525,63 @@ body {
     object-fit: contain;
 }
 
-/* Project Navigation Arrows (desktop fixed) */
+/* Mobile Project Switcher */
+.mobile-project-switcher {
+    position: fixed;
+    top: 100px;
+    left: 0;
+    right: 0;
+    z-index: 90;
+    background-color: #FFFFFF;
+    border-bottom: 1px solid #E0E0E0;
+}
+
+.mobile-project-switcher::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 40px;
+    height: 100%;
+    background: linear-gradient(to right, transparent, #FFFFFF);
+    pointer-events: none;
+}
+
+.mobile-project-switcher-inner {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    padding: 12px 20px;
+    gap: 32px;
+}
+
+.mobile-project-switcher-inner::-webkit-scrollbar {
+    display: none;
+}
+
+.switcher-link {
+    text-decoration: none;
+    color: #000000;
+    font-size: 14px;
+    font-family: 'roc-grotesk', sans-serif;
+    font-weight: 400;
+    white-space: nowrap;
+    padding: 4px 0;
+    border-bottom: 2px solid transparent;
+    transition: color 0.3s ease, border-color 0.3s ease;
+}
+
+.switcher-link:hover {
+    color: #FF1493;
+}
+
+.switcher-link.active {
+    font-weight: 700;
+    border-bottom: 2px solid #000000;
+}
+
+
 .project-nav-arrow {
     display: none;
 }
@@ -887,7 +1048,7 @@ body {
     }
 
     .posters-section {
-        padding: 120px 20px 80px;
+        padding: 150px 20px 80px;
     }
 
     .posters-section h1 {
@@ -921,7 +1082,7 @@ body {
     }
 
     .editorial-section {
-        padding: 120px 20px 80px;
+        padding: 150px 20px 80px;
     }
 
     .editorial-section h1 {
@@ -977,7 +1138,7 @@ body {
     }
 
     .under-construction {
-        padding: 120px 20px 80px;
+        padding: 150px 20px 80px;
     }
 
     .construction-content h1 {
@@ -990,7 +1151,7 @@ body {
     }
 
     .design-section {
-        padding: 120px 20px 80px;
+        padding: 150px 20px 80px;
     }
 
     .design-section h1 {
@@ -1020,7 +1181,7 @@ body {
     }
 
     .animation-section {
-        padding: 120px 20px 80px;
+        padding: 150px 20px 80px;
     }
 
     .animation-section h1 {
