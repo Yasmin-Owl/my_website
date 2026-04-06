@@ -9,6 +9,9 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <!-- Mobile Header Wrapper: sticky envelope on mobile -->
+    <div id="mobile-sticky-header">
+
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg">
         <div class="container-fluid px-4 px-lg-5">
@@ -27,6 +30,18 @@
             </div>
         </div>
     </nav>
+
+    <!-- Mobile Project Switcher -->
+    <div class="mobile-project-switcher d-lg-none">
+        <div class="mobile-project-switcher-inner">
+            <a href="posters.html" class="switcher-link">Posters</a>
+            <a href="mixed-work-page.html" class="switcher-link">Mixed work</a>
+            <a href="editorial-design.html" class="switcher-link active">Editorial</a>
+            <a href="3d-design.html" class="switcher-link">3D design</a>
+            <a href="animation.html" class="switcher-link">Animation</a>
+        </div>
+    </div>
+    </div><!-- end #mobile-sticky-header -->
 
     <!-- Editorial Design Section -->
     <section class="editorial-section">
@@ -71,17 +86,6 @@
             </div>
         </div>
     </section>
-
-    <!-- Fixed project navigation (desktop) -->
-    <a href="mixed-work-page.html" class="project-nav-arrow project-nav-prev" title="Mixed work">&#8592;</a>
-    <a href="3d-design.html" class="project-nav-arrow project-nav-next" title="3D design">&#8594;</a>
-
-    <!-- Bottom project navigation (mobile) -->
-    <div class="project-nav-bottom">
-        <a href="mixed-work-page.html">&#8592; Mixed work</a>
-        <a href="works.html">Works</a>
-        <a href="3d-design.html">3D design &#8594;</a>
-    </div>
 
     <!-- Footer -->
     <footer class="footer">
