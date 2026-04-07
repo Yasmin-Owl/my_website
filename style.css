@@ -291,7 +291,7 @@ body > section {
     transform: translateY(-50%);
     width: 650px;
     z-index: 55;
-    overflow: visible;
+    overflow: hidden !important;
 }
 
 .hero-image {
@@ -299,6 +299,31 @@ body > section {
     height: auto;
     object-fit: contain;
     filter: grayscale(50%) saturate(1.8);
+    display: block;
+}
+
+/* Video: hidden by default, matches image dimensions exactly — no layout shift on swap */
+.hero-video {
+    display: none;
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    transform: scale(1.02); /* micro-zoom to crop any stray bottom edge */
+    background-color: #F5F5F5;
+    vertical-align: bottom; /* eliminates browser descender gap */
+    margin-bottom: -2px !important; /* safety net for any sub-pixel remnant */
+}
+
+/* Mobile: video replaces the photo entirely — autoplay handles playback */
+@media (max-width: 991.98px) {
+    .hero-image {
+        display: none !important;
+    }
+
+    .hero-video {
+        display: block !important;
+        opacity: 1 !important;
+    }
 }
 
 .pink-overlay {
