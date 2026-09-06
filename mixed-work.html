@@ -51,5 +51,35 @@
             });
         })();
     </script>
+    <script>
+        (function(){
+            var lastTime = 0;
+            var minInterval = 45; // ms between spawned stars
+
+            document.addEventListener('mousemove', function(e){
+                var now = Date.now();
+                if (now - lastTime < minInterval) return;
+                lastTime = now;
+
+                var star = document.createElement('img');
+                star.src = 'assets/Star_2.png';
+                star.alt = '';
+                star.className = 'star-trail';
+
+                var size = 10 + Math.random() * 12;
+                star.style.width = size + 'px';
+                star.style.left = (e.clientX - size / 2) + 'px';
+                star.style.top = (e.clientY - size / 2) + 'px';
+                star.style.setProperty('--drift-x', (Math.random() * 40 - 20) + 'px');
+                star.style.setProperty('--rotate', (Math.random() * 60 - 30) + 'deg');
+
+                document.body.appendChild(star);
+
+                star.addEventListener('animationend', function(){
+                    star.remove();
+                });
+            });
+        })();
+    </script>
 </body>
 </html>

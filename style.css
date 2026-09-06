@@ -511,6 +511,54 @@
     --text-color: #1A1A1A;
 }
 
+@font-face {
+    font-family: 'Clay';
+    src: url('assets/Clay-Regular copy.woff2') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Karat';
+    src: url('assets/karat_woff2/Karat-Thin.woff2') format('woff2');
+    font-weight: 100;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Karat';
+    src: url('assets/karat_woff2/Karat-Regular.woff2') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Karat';
+    src: url('assets/karat_woff2/Karat-Medium.woff2') format('woff2');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Karat';
+    src: url('assets/karat_woff2/Karat-Bold.woff2') format('woff2');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Karat';
+    src: url('assets/karat_woff2/Karat-ExtraBold.woff2') format('woff2');
+    font-weight: 800;
+    font-style: normal;
+    font-display: swap;
+}
+
 ::selection {
     background: #FF1493;
     color: #ffffff;
@@ -840,6 +888,7 @@ h1 {
     align-items: center;
     justify-content: center;
     width: 100%;
+    height: 100%;
     position: relative;
     z-index: 50;
     overflow: visible;
@@ -870,20 +919,81 @@ h1 {
 
 .hero-image-wrapper {
     position: absolute;
-    right: 250px;
+    left: 50%;
     top: 50%;
-    transform: translateY(-50%);
-    width: 600px;
-    max-width: 600px;
+    transform: translate(-50%, -50%);
+    /* Fluid size: bounded by both viewport width and height so the
+       star + portrait always fits on screen, never clipped. */
+    width: clamp(180px, min(58vw, 56vh), 640px);
     z-index: 55;
     overflow: visible;
+}
+
+.welcome-text-wrapper {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 56;
+    pointer-events: none;
+}
+
+.welcome-word {
+    position: absolute;
+    display: inline-block;
+    font-size: 32px;
+    font-weight: 700;
+    line-height: 1.3;
+    font-family: 'roc-grotesk-wide', sans-serif;
+    color: #000000;
+    text-shadow: 0 0 4px rgba(255, 105, 180, 0.55), 0 0 9px rgba(255, 105, 180, 0.3);
+    pointer-events: auto;
+}
+
+.word-1 { left: 4%;  top: 16%; transform: rotate(-2deg); }
+.word-2 { left: 58%; top: 6%;  transform: rotate(3deg); }
+.word-3 { left: 80%; top: 22%; transform: rotate(-3deg); }
+.word-4 { left: 4%;  top: 46%; transform: rotate(2deg); }
+.word-5 { left: 36%; top: 78%; transform: rotate(-4deg); }
+.word-6 { left: 64%; top: 73%; transform: rotate(2deg); }
+.word-7 { left: 42%; top: 88%; transform: rotate(-1deg); }
+
+/* Mouse-trail stars: spawned via JS on mousemove, fade + drift away, then removed */
+.star-trail {
+    position: fixed;
+    height: auto;
+    z-index: 9999;
+    pointer-events: none;
+    opacity: 1;
+    animation: starTrailFade 0.8s ease-out forwards;
+}
+
+@keyframes starTrailFade {
+    0% {
+        opacity: 1;
+        transform: translate(0, 0) rotate(0deg) scale(1);
+    }
+    100% {
+        opacity: 0;
+        transform: translate(var(--drift-x, 0), -30px) rotate(var(--rotate, 0deg)) scale(0.4);
+    }
+}
+
+.draggable {
+    cursor: grab;
+    user-select: none;
+    touch-action: none;
+}
+
+.draggable:active {
+    cursor: grabbing;
 }
 
 /* Hero SVG stack: portrait over star */
 .hero-stack {
     position: relative;
     width: 100%;
-    max-width: 450px;
     margin: 0 auto;
     overflow: visible; /* star bursts beyond the portrait bounds */
     perspective: 1000px;
@@ -902,6 +1012,8 @@ h1 {
     transform-style: preserve-3d;
     backface-visibility: hidden;
     will-change: transform;
+    cursor: grab;
+    user-select: none;
 }
 
 .hero-portrait {
@@ -909,7 +1021,6 @@ h1 {
     display: block;
     width: 100%;
     height: auto;
-    max-width: 450px;
     z-index: 2;
     backface-visibility: hidden;
     /* no mix-blend-mode — keeps colours accurate */
@@ -921,13 +1032,14 @@ h1 {
     100% { transform: translate(-50%, -50%) rotate(-3deg) scale(1); }
 }
 
-.hero-stack:hover .hero-star {
-    animation: wiggle 1.5s ease-in-out infinite;
-}
+/* Desktop hover: star rotation is driven by JS to follow the mouse like a wheel */
 
 /* Mobile: shrink desktop layout to fit, stop horizontal scroll, auto-play wiggle */
 @media (max-width: 991.98px) {
-    html, body {
+    /* Only body gets overflow-x hidden here — setting it on html too creates two
+       nested scroll containers (a classic CSS gotcha) and breaks position:sticky
+       for descendants like the posters section on works.html. */
+    body {
         overflow-x: hidden !important;
     }
 
@@ -940,7 +1052,6 @@ h1 {
     }
 
     .hero-stack {
-        transform: scale(1.4);
         margin-top: 70px !important;
         margin-bottom: 80px !important;
         z-index: 1 !important;
@@ -968,12 +1079,8 @@ h1 {
     }
 }
 
-/* Desktop-only: staggered right shift for stack and name */
+/* Desktop-only overrides */
 @media (min-width: 992px) {
-    .hero-stack {
-        transform: translateX(10px);
-    }
-
     .hero-title {
         transform: translateX(30px);
     }
@@ -1313,6 +1420,302 @@ h1 {
 
 .work-link {
     text-decoration: none;
+}
+
+/* ─── Works page: single scrollable page ─────────────────────────────── */
+
+/* Posters: fanned on load, unfurl into a grid as the section scrolls by (JS-driven) */
+.posters-scroll-section {
+    position: relative;
+    min-height: 200vh;
+}
+
+.posters-sticky {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+}
+
+.posters-fan {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    max-width: 1100px;
+    height: 560px; /* fallback before JS sets the exact content height */
+}
+
+.fan-poster {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 280px;
+    height: auto;
+    border-radius: 2px;
+    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.2);
+    will-change: transform;
+}
+
+.fan-1 { transform: translate(-50%, -50%) translateX(-269px) rotate(-15deg); z-index: 1; }
+.fan-2 { transform: translate(-50%, -50%) translateX(-161px) rotate(-9deg);  z-index: 2; }
+.fan-3 { transform: translate(-50%, -50%) translateX(-53px)  rotate(-3deg); z-index: 3; }
+.fan-4 { transform: translate(-50%, -50%) translateX(53px)   rotate(3deg);  z-index: 4; }
+.fan-5 { transform: translate(-50%, -50%) translateX(161px)  rotate(9deg); z-index: 5; }
+.fan-6 { transform: translate(-50%, -50%) translateX(269px)  rotate(15deg); z-index: 6; }
+
+@media (max-width: 767.98px) {
+    .posters-scroll-section {
+        min-height: 190vh;
+    }
+
+    .posters-fan {
+        max-width: 100%;
+        height: 380px;
+    }
+
+    .fan-poster {
+        width: 160px;
+    }
+
+    .fan-1 { transform: translate(-50%, -50%) translateX(-142px) rotate(-15deg); }
+    .fan-2 { transform: translate(-50%, -50%) translateX(-86px)  rotate(-9deg); }
+    .fan-3 { transform: translate(-50%, -50%) translateX(-29px)  rotate(-3deg); }
+    .fan-4 { transform: translate(-50%, -50%) translateX(29px)   rotate(3deg); }
+    .fan-5 { transform: translate(-50%, -50%) translateX(86px)   rotate(9deg); }
+    .fan-6 { transform: translate(-50%, -50%) translateX(142px)  rotate(15deg); }
+
+    .work-row {
+        padding: 30px 20px;
+    }
+}
+
+/* ─── Works page: Clay type-design project ─────────────────────────────── */
+.type-project-section {
+    padding: 100px 80px 120px;
+}
+
+.type-project-inner {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.type-project-header h1 {
+    font-size: 64px;
+    margin-bottom: 20px;
+    margin-top: 0;
+    font-weight: 400;
+    line-height: 66px;
+    font-family: 'roc-grotesk-wide', sans-serif;
+}
+
+.type-project-subtitle {
+    font-size: 18px;
+    max-width: 560px;
+    color: var(--text-color);
+    margin-bottom: 60px;
+}
+
+.clay-font {
+    font-family: 'Clay', 'roc-grotesk', sans-serif;
+}
+
+.karat-font {
+    font-family: 'Karat', 'roc-grotesk', sans-serif;
+}
+
+.type-project-section + .type-project-section {
+    border-top: 1px solid rgba(26, 26, 26, 0.15);
+}
+
+/* Fonts teaser (works page) */
+.fonts-teaser-section {
+    padding: 100px 24px 140px;
+}
+
+.fonts-teaser-inner {
+    max-width: 900px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.fonts-teaser-label {
+    font-size: 13px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: rgba(26, 26, 26, 0.55);
+    font-family: 'roc-grotesk', sans-serif;
+    margin-bottom: 32px;
+}
+
+.fonts-teaser-letters {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 8px 28px;
+}
+
+.fonts-teaser-letter {
+    display: inline-block;
+    font-size: 72px;
+    line-height: 1;
+    color: var(--text-color);
+    text-decoration: none;
+    padding: 12px;
+    transform: rotate(var(--tilt, 0deg));
+    transition: transform 0.25s ease, color 0.25s ease;
+}
+
+.fonts-teaser-letter:hover,
+.fonts-teaser-letter:focus-visible {
+    transform: rotate(var(--tilt, 0deg)) scale(1.6);
+    color: var(--accent-pink);
+}
+
+@media (max-width: 767.98px) {
+    .fonts-teaser-section {
+        padding: 60px 24px 90px;
+    }
+
+    .fonts-teaser-letter {
+        font-size: 44px;
+    }
+}
+
+/* Font specimen */
+.font-specimen {
+    border-top: 1px solid rgba(26, 26, 26, 0.15);
+    padding-top: 24px;
+    margin-bottom: 60px;
+}
+
+.font-specimen-row {
+    display: flex;
+    align-items: baseline;
+    gap: 24px;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(26, 26, 26, 0.1);
+}
+
+.font-specimen-label {
+    flex: 0 0 120px;
+    font-size: 13px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: rgba(26, 26, 26, 0.55);
+    font-family: 'roc-grotesk', sans-serif;
+}
+
+.font-specimen-value {
+    font-size: 20px;
+}
+
+.font-specimen-glyphs {
+    margin-top: 24px;
+    font-size: 34px;
+    line-height: 1.5;
+    word-break: break-word;
+}
+
+/* Interactive tester */
+.font-tester {
+    margin-bottom: 48px;
+}
+
+.font-tester-controls {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+.font-tester-label {
+    font-size: 13px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: rgba(26, 26, 26, 0.55);
+    font-family: 'roc-grotesk', sans-serif;
+}
+
+.font-tester-range {
+    flex: 1;
+    max-width: 260px;
+    accent-color: var(--accent-pink);
+}
+
+.font-tester-select {
+    padding: 8px 12px;
+    border: 1px solid rgba(26, 26, 26, 0.2);
+    background: #ffffff;
+    color: var(--text-color);
+    font-size: 14px;
+    font-family: 'roc-grotesk', sans-serif;
+}
+
+.font-tester-size-value {
+    font-size: 14px;
+    font-family: 'roc-grotesk', sans-serif;
+    color: var(--text-color);
+    min-width: 46px;
+}
+
+.font-tester-textbox {
+    width: 100%;
+    min-height: 160px;
+    padding: 24px;
+    border: 1px solid rgba(26, 26, 26, 0.2);
+    background: #ffffff;
+    color: var(--text-color);
+    line-height: 1.3;
+    overflow-wrap: break-word;
+    outline: none;
+    transition: border-color 0.2s ease;
+}
+
+.font-tester-textbox:focus {
+    border-color: var(--accent-pink);
+}
+
+/* Download button */
+.font-download-btn {
+    display: inline-block;
+    padding: 14px 32px;
+    background: var(--text-color);
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 15px;
+    font-family: 'roc-grotesk', sans-serif;
+    letter-spacing: 0.02em;
+    transition: background 0.2s ease, box-shadow 0.3s ease;
+}
+
+.font-download-btn:hover {
+    background: var(--accent-pink);
+    box-shadow: 0 0 18px 5px rgba(255, 20, 147, 0.35);
+    color: #ffffff;
+}
+
+@media (max-width: 767.98px) {
+    .type-project-section {
+        padding: 60px 24px 80px;
+    }
+
+    .type-project-header h1 {
+        font-size: 42px;
+        line-height: 46px;
+    }
+
+    .font-specimen-glyphs {
+        font-size: 24px;
+    }
+
+    .font-specimen-label {
+        flex: 0 0 90px;
+    }
+
+    .font-tester-controls {
+        flex-wrap: wrap;
+    }
 }
 
 /* Works Carousel */
@@ -1933,45 +2336,12 @@ h1 {
     margin: 0;
 }
 
-/* Mobile Design - 600px and below */
-@media (max-width: 600px) {
-    .hero-title {
-        font-size: 48px;
-        line-height: 50px;
-        width: 300px;
-        height: auto;
-        left: 50%;
-        transform: translateX(-50%);
-        top: 100px;
-    }
-
-    .hero-image-wrapper {
-        width: 90vw;
-        right: auto;
-        left: 50%;
-        transform: translateX(-50%);
-        top: -165px;
-    }
-}
-
 /* Responsive Design */
 @media (max-width: 768px) {
-    .hero-title {
-        font-size: 80px;
-        background-color: #F9F9F7;
-        padding: 20px 40px;
-        border-radius: 5px;
-    }
-
-    .hero-image-wrapper {
-        width: 250px;
-        right: 10%;
-    }
-
     .footer {
-        padding: 10px 20px;
-            padding: 0 !important;
-            margin: 0 !important;
+        padding: 0 !important;
+        margin: 0 !important;
+    }
 
     .page-content {
         padding: 80px 30px 80px;
@@ -2465,23 +2835,12 @@ h1 {
         margin-right: 0;
     }
 
-    /* Home: star + portrait — nudge left, slightly smaller than before */
-    .hero-image-wrapper {
-        width: 36vw;
-        max-width: none;
-        right: 10vw;
-    }
+    /* Home: star + portrait use the fluid clamp() sizing from the base rule */
     .hero-title {
         font-size: 6vw;
         line-height: 1.1;
         width: auto;
         padding-left: 10% !important;
-    }
-    .hero-stack {
-        max-width: none;
-    }
-    .hero-portrait {
-        max-width: none;
     }
 
     /* About: content nudged below header, left-anchored, proportional */

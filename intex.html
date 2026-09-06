@@ -38,7 +38,16 @@
                     <img src="assets/BDFM_2026_04_07_11_14.svg" alt="Yasmin" class="hero-portrait">
                 </div>
             </div>
-            <img src="assets/Yasmin.svg" alt="Yasmin" class="hero-title">
+
+            <div class="welcome-text-wrapper">
+                <span class="welcome-word word-1 draggable">Welcome</span>
+                <span class="welcome-word word-2 draggable">to</span>
+                <span class="welcome-word word-3 draggable">the</span>
+                <span class="welcome-word word-4 draggable">portfolio</span>
+                <span class="welcome-word word-5 draggable">of</span>
+                <span class="welcome-word word-6 draggable">Yasmin</span>
+                <span class="welcome-word word-7 draggable">Gendelevich</span>
+            </div>
         </div>
     </section>
 
@@ -55,6 +64,162 @@
             var nav = document.querySelector('.navbar');
             window.addEventListener('scroll', function(){
                 nav.classList.toggle('scrolled', window.scrollY > 10);
+            });
+        })();
+
+        (function(){
+            var stack = document.querySelector('.hero-stack');
+            var star = document.querySelector('.hero-star');
+            if (!stack || !star) return;
+
+            var spinning = false;
+
+            function rotateToward(e){
+                var rect = stack.getBoundingClientRect();
+                var centerX = rect.left + rect.width / 2;
+                var centerY = rect.top + rect.height / 2;
+                var angle = Math.atan2(e.clientY - centerY, e.clientX - centerX) * (180 / Math.PI);
+
+                star.style.transition = 'none';
+                star.style.transform = 'translate(-50%, -50%) rotate(' + angle + 'deg) scale(1.05)';
+            }
+
+            star.addEventListener('mousedown', function(e){
+                spinning = true;
+                star.style.cursor = 'grabbing';
+                rotateToward(e);
+                e.preventDefault();
+            });
+
+            document.addEventListener('mousemove', function(e){
+                if (!spinning) return;
+                rotateToward(e);
+            });
+
+            document.addEventListener('mouseup', function(){
+                if (!spinning) return;
+                spinning = false;
+                star.style.cursor = 'grab';
+                star.style.transition = 'transform 0.5s ease';
+                star.style.transform = 'translate(-50%, -50%) rotate(0deg) scale(1)';
+            });
+        })();
+
+        (function(){
+            var wrapper = document.querySelector('.welcome-text-wrapper');
+            var words = document.querySelectorAll('.welcome-word');
+            var safeEl = document.querySelector('.hero-image-wrapper');
+            if (!wrapper || !words.length || !safeEl) return;
+
+            // Zones are listed in reading order (top row L-to-R, middle row,
+            // bottom row L-to-R) so the words always read "Welcome to the
+            // portfolio of Yasmin Gendelevich" in a sensible flow, no matter
+            // where the random jitter lands them within each zone. Zones stay
+            // clear of the centered star + portrait.
+            var zones = [
+                { leftMin: 2,  leftMax: 16, topMin: 6,  topMax: 20 }, // Welcome
+                { leftMin: 40, leftMax: 56, topMin: 2,  topMax: 11 }, // to
+                { leftMin: 78, leftMax: 92, topMin: 14, topMax: 28 }, // the
+                { leftMin: 2,  leftMax: 14, topMin: 42, topMax: 55 }, // portfolio
+                { leftMin: 82, leftMax: 94, topMin: 42, topMax: 55 }, // of
+                { leftMin: 18, leftMax: 34, topMin: 76, topMax: 90 }, // Yasmin
+                { leftMin: 66, leftMax: 82, topMin: 76, topMax: 90 }  // Gendelevich
+            ];
+
+            function randBetween(min, max){
+                return min + Math.random() * (max - min);
+            }
+
+            function rectsOverlap(a, b, margin){
+                return !(
+                    a.right + margin < b.left ||
+                    a.left - margin > b.right ||
+                    a.bottom + margin < b.top ||
+                    a.top - margin > b.bottom
+                );
+            }
+
+            var safeRect = safeEl.getBoundingClientRect();
+
+            words.forEach(function(word, i){
+                var zone = zones[i] || zones[zones.length - 1];
+                var attempts = 0;
+                var left, top;
+
+                do {
+                    left = randBetween(zone.leftMin, zone.leftMax);
+                    top = randBetween(zone.topMin, zone.topMax);
+                    word.style.left = left + '%';
+                    word.style.top = top + '%';
+                    attempts++;
+                } while (rectsOverlap(word.getBoundingClientRect(), safeRect, 20) && attempts < 12);
+
+                var rotation = (Math.random() * 8 - 4).toFixed(1);
+                word.style.transform = 'rotate(' + rotation + 'deg)';
+            });
+        })();
+
+        (function(){
+            document.querySelectorAll('.draggable').forEach(function(el){
+                var offsetX = 0, offsetY = 0, dragging = false;
+
+                el.addEventListener('mousedown', function(e){
+                    dragging = true;
+                    var rect = el.getBoundingClientRect();
+                    var parentRect = el.offsetParent.getBoundingClientRect();
+
+                    if (getComputedStyle(el).position !== 'absolute') {
+                        el.style.position = 'absolute';
+                        el.style.left = (rect.left - parentRect.left) + 'px';
+                        el.style.top = (rect.top - parentRect.top) + 'px';
+                        el.style.margin = '0';
+                    }
+
+                    offsetX = e.clientX - rect.left;
+                    offsetY = e.clientY - rect.top;
+                    el.style.zIndex = 999;
+                    e.preventDefault();
+                });
+
+                document.addEventListener('mousemove', function(e){
+                    if (!dragging) return;
+                    var parentRect = el.offsetParent.getBoundingClientRect();
+                    el.style.left = (e.clientX - parentRect.left - offsetX) + 'px';
+                    el.style.top = (e.clientY - parentRect.top - offsetY) + 'px';
+                });
+
+                document.addEventListener('mouseup', function(){
+                    dragging = false;
+                });
+            });
+        })();
+
+        (function(){
+            var lastTime = 0;
+            var minInterval = 45; // ms between spawned stars
+
+            document.addEventListener('mousemove', function(e){
+                var now = Date.now();
+                if (now - lastTime < minInterval) return;
+                lastTime = now;
+
+                var star = document.createElement('img');
+                star.src = 'assets/Star_2.png';
+                star.alt = '';
+                star.className = 'star-trail';
+
+                var size = 10 + Math.random() * 12;
+                star.style.width = size + 'px';
+                star.style.left = (e.clientX - size / 2) + 'px';
+                star.style.top = (e.clientY - size / 2) + 'px';
+                star.style.setProperty('--drift-x', (Math.random() * 40 - 20) + 'px');
+                star.style.setProperty('--rotate', (Math.random() * 60 - 30) + 'deg');
+
+                document.body.appendChild(star);
+
+                star.addEventListener('animationend', function(){
+                    star.remove();
+                });
             });
         })();
     </script>

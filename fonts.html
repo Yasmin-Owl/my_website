@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fonts - Yasmin Portfolio</title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="stylesheet" href="https://use.typekit.net/dcc4pra.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="works-page">
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg">
+        <div class="container-fluid px-4 px-lg-5">
+            <a href="intex.html" class="navbar-brand logo">
+                <img src="assets/logo.svg" alt="Maxim" class="logo-image">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-end" id="mainNav">
+                <ul class="navbar-nav gap-4">
+                    <li class="nav-item"><a class="nav-link" href="works.html">Works</a></li>
+                    <li class="nav-item"><a class="nav-link" href="about.html">About me</a></li>
+                    <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Type Design: Clay typeface specimen + interactive tester -->
+    <section class="type-project-section type-project-section-first" id="clayFont">
+        <div class="type-project-inner">
+            <div class="type-project-header">
+                <h1 class="clay-font">Clay</h1>
+                <p class="type-project-subtitle">An original display typeface with soft, rounded forms — designed for expressive headlines and posters.</p>
+            </div>
+
+            <div class="font-specimen">
+                <div class="font-specimen-row">
+                    <span class="font-specimen-label">Family</span>
+                    <span class="font-specimen-value clay-font">Clay</span>
+                </div>
+                <div class="font-specimen-row">
+                    <span class="font-specimen-label">Style</span>
+                    <span class="font-specimen-value clay-font">Regular</span>
+                </div>
+                <div class="font-specimen-row">
+                    <span class="font-specimen-label">Format</span>
+                    <span class="font-specimen-value">OTF</span>
+                </div>
+                <div class="font-specimen-glyphs clay-font">
+                    ABCDEFGHIJKLM<br>NOPQRSTUVWXYZ<br>0123456789
+                </div>
+            </div>
+
+            <div class="font-tester">
+                <div class="font-tester-controls">
+                    <label for="claySizeRange" class="font-tester-label">Size</label>
+                    <input type="range" id="claySizeRange" class="font-tester-range" min="16" max="180" value="72" step="1">
+                    <span class="font-tester-size-value" id="claySizeValue">72px</span>
+                </div>
+                <div
+                    class="font-tester-textbox clay-font"
+                    id="clayTesterText"
+                    contenteditable="true"
+                    role="textbox"
+                    aria-multiline="true"
+                    aria-label="Type to test the Clay font"
+                    style="font-size: 72px;"
+                >Type something...</div>
+            </div>
+
+            <a class="font-download-btn" href="assets/Clay-Regular.otf" download="Clay-Regular.otf">Download Clay (.otf)</a>
+        </div>
+    </section>
+
+    <!-- Type Design: Karat typeface specimen + interactive tester -->
+    <section class="type-project-section" id="karatFont">
+        <div class="type-project-inner">
+            <div class="type-project-header">
+                <h1 class="karat-font">Karat</h1>
+                <p class="type-project-subtitle">An original type family spanning five weights, from Thin to Extra Bold.</p>
+            </div>
+
+            <div class="font-specimen">
+                <div class="font-specimen-row">
+                    <span class="font-specimen-label">Family</span>
+                    <span class="font-specimen-value karat-font">Karat</span>
+                </div>
+                <div class="font-specimen-row">
+                    <span class="font-specimen-label">Weights</span>
+                    <span class="font-specimen-value">Thin, Regular, Medium, Bold, Extra Bold</span>
+                </div>
+                <div class="font-specimen-row">
+                    <span class="font-specimen-label">Format</span>
+                    <span class="font-specimen-value">OTF</span>
+                </div>
+                <div class="font-specimen-glyphs karat-font" id="karatSpecimenGlyphs" style="font-weight: 400;">
+                    ABCDEFGHIJKLM<br>NOPQRSTUVWXYZ<br>abcdefghijklm<br>nopqrstuvwxyz<br>0123456789<br>?!*
+                </div>
+            </div>
+
+            <div class="font-tester">
+                <div class="font-tester-controls">
+                    <label for="karatWeightSelect" class="font-tester-label">Weight</label>
+                    <select id="karatWeightSelect" class="font-tester-select">
+                        <option value="100">Thin</option>
+                        <option value="400" selected>Regular</option>
+                        <option value="500">Medium</option>
+                        <option value="700">Bold</option>
+                        <option value="800">Extra Bold</option>
+                    </select>
+                    <label for="karatSizeRange" class="font-tester-label">Size</label>
+                    <input type="range" id="karatSizeRange" class="font-tester-range" min="16" max="180" value="72" step="1">
+                    <span class="font-tester-size-value" id="karatSizeValue">72px</span>
+                </div>
+                <div
+                    class="font-tester-textbox karat-font"
+                    id="karatTesterText"
+                    contenteditable="true"
+                    role="textbox"
+                    aria-multiline="true"
+                    aria-label="Type to test the Karat font"
+                    style="font-size: 72px; font-weight: 400;"
+                >Type something...</div>
+            </div>
+
+            <a class="font-download-btn" href="assets/Karat.zip" download="Karat.zip">Download Karat (family)</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container-fluid px-4 px-lg-5 footer-inner">
+            <div class="footer-left">Yasmin Gendelevich  2026</div>
+            <div class="footer-right">Portfolio</div>
+        </div>
+    </footer>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        (function(){
+            var nav = document.querySelector('.navbar');
+            window.addEventListener('scroll', function(){
+                nav.classList.toggle('scrolled', window.scrollY > 10);
+            });
+        })();
+    </script>
+    <script>
+        (function(){
+            var range = document.getElementById('claySizeRange');
+            var sizeValue = document.getElementById('claySizeValue');
+            var textbox = document.getElementById('clayTesterText');
+            if (!range || !textbox) return;
+
+            var placeholder = 'Type something...';
+
+            range.addEventListener('input', function(){
+                textbox.style.fontSize = range.value + 'px';
+                sizeValue.textContent = range.value + 'px';
+            });
+
+            textbox.addEventListener('focus', function(){
+                if (textbox.textContent === placeholder) {
+                    textbox.textContent = '';
+                }
+            });
+
+            textbox.addEventListener('blur', function(){
+                if (textbox.textContent.trim() === '') {
+                    textbox.textContent = placeholder;
+                }
+            });
+        })();
+    </script>
+    <script>
+        (function(){
+            var range = document.getElementById('karatSizeRange');
+            var sizeValue = document.getElementById('karatSizeValue');
+            var weightSelect = document.getElementById('karatWeightSelect');
+            var textbox = document.getElementById('karatTesterText');
+            var specimenGlyphs = document.getElementById('karatSpecimenGlyphs');
+            if (!range || !textbox) return;
+
+            var placeholder = 'Type something...';
+
+            range.addEventListener('input', function(){
+                textbox.style.fontSize = range.value + 'px';
+                sizeValue.textContent = range.value + 'px';
+            });
+
+            if (weightSelect) {
+                weightSelect.addEventListener('change', function(){
+                    textbox.style.fontWeight = weightSelect.value;
+                    if (specimenGlyphs) {
+                        specimenGlyphs.style.fontWeight = weightSelect.value;
+                    }
+                });
+            }
+
+            textbox.addEventListener('focus', function(){
+                if (textbox.textContent === placeholder) {
+                    textbox.textContent = '';
+                }
+            });
+
+            textbox.addEventListener('blur', function(){
+                if (textbox.textContent.trim() === '') {
+                    textbox.textContent = placeholder;
+                }
+            });
+        })();
+    </script>
+    <script>
+        (function(){
+            var lastTime = 0;
+            var minInterval = 45; // ms between spawned stars
+
+            document.addEventListener('mousemove', function(e){
+                var now = Date.now();
+                if (now - lastTime < minInterval) return;
+                lastTime = now;
+
+                var star = document.createElement('img');
+                star.src = 'assets/Star_2.png';
+                star.alt = '';
+                star.className = 'star-trail';
+
+                var size = 10 + Math.random() * 12;
+                star.style.width = size + 'px';
+                star.style.left = (e.clientX - size / 2) + 'px';
+                star.style.top = (e.clientY - size / 2) + 'px';
+                star.style.setProperty('--drift-x', (Math.random() * 40 - 20) + 'px');
+                star.style.setProperty('--rotate', (Math.random() * 60 - 30) + 'deg');
+
+                document.body.appendChild(star);
+
+                star.addEventListener('animationend', function(){
+                    star.remove();
+                });
+            });
+        })();
+    </script>
+</body>
+</html>
