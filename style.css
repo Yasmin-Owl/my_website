@@ -1508,6 +1508,15 @@ h1 {
     font-family: 'roc-grotesk-wide', sans-serif;
 }
 
+/* Higher specificity than ".type-project-header h1" so each typeface's own title renders in that typeface */
+.type-project-header h1.clay-font {
+    font-family: 'Clay', 'roc-grotesk', sans-serif;
+}
+
+.type-project-header h1.karat-font {
+    font-family: 'Karat', 'roc-grotesk', sans-serif;
+}
+
 .type-project-subtitle {
     font-size: 18px;
     max-width: 560px;
@@ -1525,6 +1534,72 @@ h1 {
 
 .type-project-section + .type-project-section {
     border-top: 1px solid rgba(26, 26, 26, 0.15);
+}
+
+/* Editorial design teaser (works page) */
+.editorial-teaser-section {
+    padding: 60px 24px 40px;
+}
+
+.editorial-teaser-link {
+    display: block;
+    max-width: 900px;
+    margin: 0 auto;
+    text-align: center;
+    text-decoration: none;
+}
+
+.editorial-teaser-label {
+    font-size: 13px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: rgba(26, 26, 26, 0.55);
+    font-family: 'roc-grotesk', sans-serif;
+    margin-bottom: 32px;
+}
+
+.editorial-teaser-covers {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 24px;
+}
+
+.editorial-teaser-cover {
+    width: 220px;
+    height: auto;
+    box-shadow: 0 10px 30px rgba(26, 26, 26, 0.15);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.editorial-teaser-cover.cover-1 {
+    transform: rotate(-6deg);
+}
+
+.editorial-teaser-cover.cover-2 {
+    transform: rotate(6deg) translateY(20px);
+}
+
+.editorial-teaser-link:hover .cover-1,
+.editorial-teaser-link:focus-visible .cover-1 {
+    transform: rotate(-8deg) scale(1.05) translateY(-6px);
+    box-shadow: 0 16px 36px rgba(26, 26, 26, 0.22);
+}
+
+.editorial-teaser-link:hover .cover-2,
+.editorial-teaser-link:focus-visible .cover-2 {
+    transform: rotate(8deg) scale(1.05) translateY(14px);
+    box-shadow: 0 16px 36px rgba(26, 26, 26, 0.22);
+}
+
+@media (max-width: 767.98px) {
+    .editorial-teaser-section {
+        padding: 40px 24px 20px;
+    }
+
+    .editorial-teaser-cover {
+        width: 130px;
+    }
 }
 
 /* Fonts teaser (works page) */
@@ -1557,7 +1632,7 @@ h1 {
 
 .fonts-teaser-letter {
     display: inline-block;
-    font-size: 72px;
+    font-size: 120px;
     line-height: 1;
     color: var(--text-color);
     text-decoration: none;
@@ -1578,7 +1653,7 @@ h1 {
     }
 
     .fonts-teaser-letter {
-        font-size: 44px;
+        font-size: 68px;
     }
 }
 
